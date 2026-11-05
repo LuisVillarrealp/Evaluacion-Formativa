@@ -91,7 +91,8 @@ func (t Tablet)MostrarDetalles(){
 	med := t.GetInformation()        
 	med.MostrarInformacionMedicine()
 	fmt.Println("Dosis por tableta (mg):", t.GetDosePerTablet())
-	fmt.Println("Requiere receta:", t.GetIsPrescription(),"\n")
+	fmt.Println("Requiere receta:", t.GetIsPrescription(),)
+	fmt.Println()
 }
 func (s Syrup) Getvolume() int {
 	return s.volume
@@ -107,7 +108,8 @@ func (s Syrup)MostrarDetalles(){
 	med := s.GetInformation()       
 	med.MostrarInformacionMedicine()
 	fmt.Println("Volumen (ml):", s.Getvolume())
-	fmt.Println("Sabor:", s.Getflavor(),"\n")
+	fmt.Println("Sabor:", s.Getflavor(),)
+	fmt.Println()
 }
 
 
@@ -137,8 +139,12 @@ func main(){
 	fmt.Println("Despues de Cambiar",tabletas[1].Information.GetManufacturer())
 
 
-	tabletas[0].CalcularFecha()
-	tabletas[1].CalcularFecha()
-	syrups[0].CalcularFecha()
-	syrups[1].CalcularFecha()
+	for _, t := range tabletas {
+		med := t.GetInformation()
+		fmt.Println(med.Getname(), "caduca el", med.CalcularFecha().Format("02/01/2006"))
+	}
+	for _, s := range syrups {
+		med := s.GetInformation()
+		fmt.Println(med.Getname(), "caduca el", med.CalcularFecha().Format("02/01/2006"))
+	}
 }
