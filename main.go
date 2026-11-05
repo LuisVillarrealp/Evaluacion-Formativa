@@ -91,7 +91,7 @@ func (t Tablet)MostrarDetalles(){
 	med := t.GetInformation()        
 	med.MostrarInformacionMedicine()
 	fmt.Println("Dosis por tableta (mg):", t.GetDosePerTablet())
-	fmt.Println("Requiere receta:", t.GetIsPrescription())
+	fmt.Println("Requiere receta:", t.GetIsPrescription(),"\n")
 }
 func (s Syrup) Getvolume() int {
 	return s.volume
@@ -107,7 +107,7 @@ func (s Syrup)MostrarDetalles(){
 	med := s.GetInformation()       
 	med.MostrarInformacionMedicine()
 	fmt.Println("Volumen (ml):", s.Getvolume())
-	fmt.Println("Sabor:", s.Getflavor())
+	fmt.Println("Sabor:", s.Getflavor(),"\n")
 }
 
 
@@ -116,14 +116,29 @@ func (m Medicine) CalcularFecha()time.Time{
 	return m.manufacturerDate.AddDate(0, m.shelfLife, 0)
 }
 func main(){
-		tabletas := []Tablet{
-		NewTablet(NuevaMedicine("Paracetamol", "Genfar", time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC), 24),500, false,),
-		NewTablet(NuevaMedicine("Amoxicilina", "Bayer", time.Date(2025, time.November, 1, 0, 0, 0, 0, time.UTC), 18),875, true,),
+	tabletas := []Tablet{
+		NewTablet(NuevaMedicine("Paracetamol", "ParacetamolOwner", time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC), 24),500, false,),
+		NewTablet(NuevaMedicine("Amoxicilina", "AmoxilinaOwner", time.Date(2025, time.November, 1, 0, 0, 0, 0, time.UTC), 18),875, true,),
 	}
 
 	syrups := []Syrup{
-		NewSyrup(NuevaMedicine("Ambroxol", "Pfizer", time.Date(2026, time.January, 10, 0, 0, 0, 0, time.UTC), 12),120, "Fresa",),
-		NewSyrup(NuevaMedicine("Loratadina", "MK", time.Date(2026, time.June, 20, 0, 0, 0, 0, time.UTC), 24),60, "Naranja",),
+		NewSyrup(NuevaMedicine("Ambroxol", "AmbroxolCompany", time.Date(2026, time.January, 10, 0, 0, 0, 0, time.UTC), 12),120, "Mora",),
+		NewSyrup(NuevaMedicine("Loratadina", "LoratadinaCompany", time.Date(2026, time.June, 20, 0, 0, 0, 0, time.UTC), 24),60, "Naranja",),
+	}
+	for _, t := range tabletas {
+		t.MostrarDetalles()
+	}
+	for _, s := range syrups {
+		s.MostrarDetalles()
 	}
 
+	fmt.Println("Antes de Cambiar",tabletas[1].Information.GetManufacturer())
+	tabletas[1].Information.SetManufacturer("AmoxilinaCompany")
+	fmt.Println("Despues de Cambiar",tabletas[1].Information.GetManufacturer())
+
+
+	tabletas[0].CalcularFecha()
+	tabletas[1].CalcularFecha()
+	syrups[0].CalcularFecha()
+	syrups[1].CalcularFecha()
 }
